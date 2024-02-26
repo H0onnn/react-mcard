@@ -10,4 +10,13 @@ module.exports = {
       },
     },
   ],
+  bebel: {
+    preset: [
+      [
+        '@babel/preset-react',
+        { runtime: 'automatic', importSource: '@emotion/react' },
+      ],
+    ],
+    plugins: ['@emotion/babel-plugin'],
+  },
 }

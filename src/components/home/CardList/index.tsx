@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { getCards } from '@remote/card'
 import { flatten } from 'lodash'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
 import ListRow from '@shared/ListRow'
+import Badge from '@shared/Badge'
 
 function CardList() {
   const navigate = useNavigate()
@@ -49,6 +49,7 @@ function CardList() {
         hasMore={hasNextPage}
         loader={<></>}
         next={loadMore}
+        scrollThreshold="100px"
       >
         <ul>
           {cards.map((card, index) => {
@@ -61,7 +62,7 @@ function CardList() {
                     subtitle={card.name}
                   />
                 }
-                right={card.payback && card.payback}
+                right={card.payback && <Badge label={card.payback} />}
                 withArrow={true}
                 onClick={() => {
                   navigate(`/card/${card.id}`)

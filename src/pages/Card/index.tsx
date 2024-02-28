@@ -1,7 +1,10 @@
+/** @jsxImportSource @emotion/react */
+
 import { css } from '@emotion/react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import { getCard } from '@remote/card'
+import { motion } from 'framer-motion'
 import Top from '@shared/Top'
 import ListRow from '@shared/ListRow'
 import FixedBottomButton from '@shared/FixedBottomButton'
@@ -9,10 +12,10 @@ import Flex from '@shared/Flex'
 import Text from '@shared/Text'
 
 const CardPage = () => {
-  const { id } = useParams()
+  const { id = '' } = useParams()
 
-  const { data } = useQuery(['card', id], () => getCard(id!), {
-    enabled: !!id,
+  const { data } = useQuery(['card', id], () => getCard(id), {
+    enabled: id !== '',
   })
 
   if (!data) return null
@@ -28,13 +31,27 @@ const CardPage = () => {
       <ul>
         {benefit.map((text, index) => {
           return (
-            <ListRow
-              key={text}
-              left={<IconCheck />}
-              contents={
-                <ListRow.Texts title={`혜택 ${index + 1}`} subtitle={text} />
-              }
-            />
+            <motion.li
+              initial={{ opacity: 0, translateX: -90 }}
+              animate={{
+                opacity: 1,
+                translateX: 0,
+              }}
+              transition={{
+                duration: 0.6,
+                ease: [0.25, 0.1, 0.25, 0.1],
+                delay: index * 0.1,
+              }}
+            >
+              <ListRow
+                as="div"
+                key={text}
+                left={<IconCheck />}
+                contents={
+                  <ListRow.Texts title={`혜택 ${index + 1}`} subtitle={text} />
+                }
+              />
+            </motion.li>
           )
         })}
       </ul>
@@ -59,19 +76,7 @@ const termsContainterStyles = css`
 `
 
 const removeHtml = (text: string) => {
-  let output = ''
-
-  for (let i = 0; i < text.length; i++) {
-    if (text[i] === '<') {
-      while (text[i] !== '>') {
-        i++
-      }
-    } else {
-      output += text[i]
-    }
-  }
-
-  return output
+  return text.replace(/<\/?[^>]+(>|$)/g, '')
 }
 
 const IconCheck = () => {

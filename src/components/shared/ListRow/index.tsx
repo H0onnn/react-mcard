@@ -9,11 +9,19 @@ interface Props {
   right?: React.ReactNode
   withArrow?: boolean
   onClick?: () => void
+  as?: 'li' | 'div'
 }
 
-const ListRow = ({ left, contents, right, withArrow, onClick }: Props) => {
+const ListRow = ({
+  left,
+  contents,
+  right,
+  withArrow,
+  onClick,
+  as = 'li',
+}: Props) => {
   return (
-    <Flex as="li" css={listRowContainerStyles} onClick={onClick} align="center">
+    <Flex as={as} css={listRowContainerStyles} onClick={onClick} align="center">
       <Flex css={listLeftStyles}>{left}</Flex>
       <Flex css={listContentStyles}>{contents}</Flex>
       <Flex>{right}</Flex>

@@ -9,16 +9,23 @@ import { colors } from '@/styles/colorPalette'
 interface Props {
   label: string
   onClick: () => void
+  disabled?: boolean
 }
 
-const FixedBottomButton = ({ label, onClick }: Props) => {
+const FixedBottomButton = ({ label, onClick, disabled }: Props) => {
   const $portal = document.getElementById('root-portal')
 
   if (!$portal) return null
 
   return createPortal(
     <Container>
-      <Button full size="medium" onClick={onClick} css={buttonStyles}>
+      <Button
+        full
+        size="medium"
+        onClick={onClick}
+        css={buttonStyles}
+        disabled={disabled}
+      >
         {label}
       </Button>
     </Container>,

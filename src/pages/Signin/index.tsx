@@ -16,7 +16,7 @@ const SigninPage = () => {
       const { email, password } = formValues
 
       try {
-        const response = await signInWithEmailAndPassword(auth, email, password)
+        await signInWithEmailAndPassword(auth, email, password)
 
         navigate('/')
       } catch (e) {

@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
+import { useAlertContext } from '@contexts/AlertContext'
+import useUser from '@hooks/auth/useUser'
 import { getCard } from '@remote/card'
 import { motion } from 'framer-motion'
 import Top from '@shared/Top'
@@ -10,13 +13,32 @@ import ListRow from '@shared/ListRow'
 import FixedBottomButton from '@shared/FixedBottomButton'
 import Flex from '@shared/Flex'
 import Text from '@shared/Text'
+import { useCallback } from 'react'
 
 const CardPage = () => {
+  const navigate = useNavigate()
   const { id = '' } = useParams()
+  const user = useUser()
+  const { open } = useAlertContext()
 
   const { data } = useQuery(['card', id], () => getCard(id), {
     enabled: id !== '',
   })
+
+  const moveToApply = useCallback(() => {
+    if (!user) {
+      open({
+        title: '로그인이 필요한 기능입니다.',
+        onButtonClick: () => {
+          navigate('/signin')
+        },
+      })
+
+      return
+    }
+
+    navigate(`/apply/${id}`)
+  }, [id, navigate, open, user])
 
   if (!data) return null
 
@@ -63,7 +85,7 @@ const CardPage = () => {
         </Flex>
       )}
 
-      <FixedBottomButton label="신청하기" onClick={() => {}} />
+      <FixedBottomButton label="신청하기" onClick={moveToApply} />
     </div>
   )
 }

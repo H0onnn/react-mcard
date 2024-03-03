@@ -49,7 +49,7 @@ const Form = ({ onSubmit }: { onSubmit: (formValues: FormValues) => void }) => {
   return (
     <Flex direction="column" css={formContainerStyles}>
       <TextField
-        label="이매일"
+        label="이메일"
         name="email"
         placeholder="satoru.gmail.com"
         onChange={handleFormValues}

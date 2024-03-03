@@ -4,8 +4,10 @@ import TestPage from '@pages/Test'
 import CardPage from '@pages/Card'
 import SigninPage from '@pages/Signin'
 import SignupPage from '@pages/Signup'
+import ApplyPage from '@pages/Apply'
 import ScrollToTop from '@shared/ScrollToTop'
 import NavBar from '@shared/NavBar'
+import PrivateRoute from '@components/auth/PrivateRoute'
 
 function App() {
   return (
@@ -14,9 +16,17 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" Component={HomePage} />
-        <Route path="/card/:id" Component={CardPage} />
         <Route path="/signin" Component={SigninPage} />
         <Route path="/signup" Component={SignupPage} />
+        <Route path="/card/:id" Component={CardPage} />
+        <Route
+          path="/apply/:id"
+          element={
+            <PrivateRoute>
+              <ApplyPage />
+            </PrivateRoute>
+          }
+        />
         <Route path="/test" Component={TestPage} />
       </Routes>
     </BrowserRouter>

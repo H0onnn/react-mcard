@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import {
@@ -7,6 +9,9 @@ import {
   buttonSizeMap,
   buttonWeakMap,
 } from '@/styles/button'
+import Flex from '@shared/Flex'
+import Text from '@shared/Text'
+import Spacing from '@shared/Spacing'
 
 interface Props {
   color?: ButtonColor
@@ -16,7 +21,7 @@ interface Props {
   disabled?: boolean
 }
 
-const Button = styled.button<Props>(
+const BaseButton = styled.button<Props>(
   {
     cursor: 'pointer',
     fontWeight: 'bold',
@@ -41,5 +46,46 @@ const Button = styled.button<Props>(
         `
       : undefined,
 )
+
+const ButtonGroup = ({
+  title,
+  children,
+}: {
+  title?: string
+  children: React.ReactNode
+}) => {
+  return (
+    <Flex direction="column" css={containerStyles}>
+      {title && (
+        <>
+          <Text typo="t6" bold>
+            {title}
+          </Text>
+          <Spacing size={8} />
+        </>
+      )}
+      <Flex css={buttonGroupStyles}>{children}</Flex>
+    </Flex>
+  )
+}
+
+const buttonGroupStyles = css`
+  flex-wrap: wrap;
+  gap: 10px;
+
+  & button {
+    flex: 1;
+  }
+`
+
+const containerStyles = css`
+  padding: 10px 24px;
+`
+
+const Button = BaseButton as typeof BaseButton & {
+  Group: typeof ButtonGroup
+}
+
+Button.Group = ButtonGroup
 
 export default Button

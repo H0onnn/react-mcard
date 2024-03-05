@@ -49,7 +49,7 @@ const ApplyPage = () => {
     },
   })
 
-  usePollApplyStatus({
+  const { data: status } = usePollApplyStatus({
     onSuccess: async () => {
       await updateApplyCard({
         applyValues: {
@@ -78,10 +78,16 @@ const ApplyPage = () => {
   if (data && data.status === APPLY_STATUS.COMPLETE) return null
 
   if (readyToPoll || isLoading) {
-    return <FullPageLoader message="카드를 신청중입니다." />
+    return <FullPageLoader message={STATUS_MESSAGE[status ?? 'READY']} />
   }
 
   return <Apply onSubmit={mutate} />
 }
 
 export default ApplyPage
+
+const STATUS_MESSAGE = {
+  [APPLY_STATUS.READY]: '카드 심사를 준비하고있습니다.',
+  [APPLY_STATUS.PROGRESS]: '카드를 심사중입니다. 잠시만 기다려주세요.',
+  [APPLY_STATUS.COMPLETE]: '카드 신청이 완료되었습니다.',
+}

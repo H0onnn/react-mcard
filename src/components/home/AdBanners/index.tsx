@@ -12,9 +12,18 @@ import Text from '@shared/Text'
 import 'swiper/css'
 
 const AdBanners = () => {
-  const { data } = useQuery('adBanners', getAdBanners)
+  const { data, isLoading } = useQuery('adBanners', getAdBanners)
 
-  if (!data) return null
+  if (!data || isLoading) {
+    return (
+      <Container>
+        <Flex direction="column" css={bannerContainerStyles}>
+          <Text bold={true}>&nbsp;</Text>
+          <Text typo="t7">&nbsp;</Text>
+        </Flex>
+      </Container>
+    )
+  }
 
   return (
     <Container>

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 
 import { css } from '@emotion/react'
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
@@ -13,7 +14,8 @@ import ListRow from '@shared/ListRow'
 import FixedBottomButton from '@shared/FixedBottomButton'
 import Flex from '@shared/Flex'
 import Text from '@shared/Text'
-import { useCallback } from 'react'
+import Review from '@components/card/Review'
+import Spacing from '@shared/Spacing'
 
 const CardPage = () => {
   const navigate = useNavigate()
@@ -84,6 +86,12 @@ const CardPage = () => {
           <Text typo="t7">{removeHtml(promotion.terms)}</Text>
         </Flex>
       )}
+
+      <Spacing size={1000} />
+
+      <Review />
+
+      <Spacing size={100} />
 
       <FixedBottomButton
         label="1분만에 신청하고 혜택받기"
